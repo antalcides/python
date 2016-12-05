@@ -1,0 +1,149 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\input{PToP-macro}
+
+\title{\LaTeX macros for \emph{A Practical Theory of Programming}}
+\author{Albert Y. C. Lai}
+
+%\def\row#1{$#1$ & \protect{\verb/xyz/}}
+%\newcommand{\row}[1]{$#1$ & xyz}
+
+\begin{document}
+
+\section{Basic Theories}
+
+\subsection{Boolean Theory}
+
+\paragraph{Operators}
+Some boolean operators are supported by \LaTeX, but they have names
+suggesting shape rather than content, e.g., \verb/a \vee b/.  It
+would be nice if they were given informative, short names (because you
+don't want to enter \verb/\conjunction/ all the time) without
+clashing with existing \LaTeX{} commands (e.g., \verb/\and/ is already
+taken).
+\begin{center}
+\begin{tabular}{ll}
+$a \et b$ & \verb$a \et b$ \\
+$a \vel b$ & \verb/a \vel b/ \\
+$a \imp b$ & \verb/a \imp b/ \\
+$a \Imp b$ & \verb$a \Imp b$ \\
+$a \pmi b$ & \verb$a \pmi b$ or \verb$a \impby b$ \\
+$a \Pmi b$ & \verb$a \Pmi b$ or \verb$a \Impby b$ \\
+$a \Eq b$ & \verb$a \Eq b$ \\
+$\cond{b}{x}{y}$ & \verb$\cond{b}{x}{y}$
+\end{tabular}
+\end{center}
+The first two come from Latin.  The rest should be obvious.  Other
+boolean symbols ($\bot$, $=$, etc.) have reasonable names in \LaTeX, and I
+will not show them.
+
+\paragraph{Proof format}
+Using the \verb/align*/ environment provided by \AmS-\LaTeX, a calculational
+proof with hints can be typeset easily.  The first
+proof in the textbook:
+\begin{align*}
+&\Blank a \et b \imp c && \text{Material Implication} \\
+&\Eq \neg(a \et b) \vel c && \text{Duality} \\
+&\Eq \neg a \vel \neg b \vel c && \text{Material Implication} \\
+&\Eq a \imp \neg b \vel c && \text{Material Implication} \\
+&\Eq a \imp (b \imp c)
+\end{align*}
+Its code:
+\begin{verbatim}
+\begin{align*}
+&\Blank a \et b \imp c          && \text{Material Implication} \\
+&\Eq  \neg(a \et b) \vel c      && \text{Duality} \\
+&\Eq  \neg a \vel \neg b \vel c && \text{Material Implication} \\
+&\Eq  a \imp \neg b \vel c      && \text{Material Implication} \\
+&\Eq  a \imp (b \imp c)
+\end{align*}
+\end{verbatim}
+The command \verb/\Blank/ is a blank relation symbol I invented; it is
+necessary in that position to keep \verb/align*/ happy.  Its
+definition is simply: \verb/\mathrel{\phantom{\Eq}}/.
+
+
+\section{Basic Data Structures}
+
+\paragraph{Bunch Theory}
+\begin{center}
+\begin{tabular}{ll}
+$A,B$ & \verb$A,B$ \\
+$A`B$ & \verb$A`B$ \\
+$\nul$ & \verb$\nul$ \\
+$\card A$ & \verb$\card A$ \\
+$0 \bto 10$ & \verb$0 \bto 10$ \\
+$\nat, \xnat$ & \verb$\nat, \xnat$ \\
+$\int, \xint$ & \verb$\int, \xint$ \\
+$\rat, \xrat$ & \verb$\rat, \xrat$
+\end{tabular}
+\end{center}
+
+\paragraph{String Theory}
+\begin{center}
+\begin{tabular}{ll}
+$\nil$ & \verb$\nil$ \\
+$n^*S$ & \verb$n^*S$ \\
+${}^*S$ & \verb${}^*S$ \\
+$0 \sto 10$ & \verb$0 \sto 10$
+\end{tabular}
+\end{center}
+
+\paragraph{List Theory}
+\begin{center}
+\begin{tabular}{ll}
+$L^+M$ & \verb$L^+M$ \\
+$n \to i \ow L$ & \verb$n \to i \ow L$ \\
+$L \ap n$ & \verb$L \ap n$
+\end{tabular}
+\end{center}
+
+
+\section{Function Theory}
+The \verb|\fun| and \verb|\fn| commands produce functions; \verb|\fun|
+requires a domain and \verb|\fn| omits the domain.
+\begin{center}
+\begin{tabular}{ll}
+$\fun{x}{\nat}{x+1}$ & \verb$\fun{x}{\nat}{x+1}$ \\
+$\fn{x}{x+1}$ & \verb$\fn{x}{x+1}$
+\end{tabular}
+\end{center}
+
+The \verb|\bind| and \verb|\bnd| commands help you produce quantified
+expressions.  They just have the quantifier missing, and you just put
+it back.  \verb|\bind| requires a domain and \verb|\bnd| omits the
+domain.  Some examples:
+\begin{center}
+\begin{tabular}{ll}
+$\forall\bnd{x}{x=x}$ & \verb$\forall\bnd{x}{x=x}$ \\
+$\Sigma\bind{i}{0 \bto 10}{i^2}$ & \verb$\Sigma\bind{i}{0 \bto 10}{i^2}$ \\
+$\S\bind{x}{\nat}{x/2:\nat}$ & \verb$\S\bind{x}{\nat}{x/2:\nat}$
+\end{tabular}
+\end{center}
+
+Two quantifiers are not already available in \LaTeX: $\MAX$ and $\MIN$.
+I have defined them as \verb$\MAX$ and \verb$\MIN$, respectively.
+
+Both application and composition are \verb$\ap$.  You can think of it
+as standing for ``apposition''.  Selective union is \verb$\ow$, standing
+for ``otherwise''.  You have seen them in List Theory.  More examples:
+\begin{center}
+\begin{tabular}{ll}
+$\MAX\bind{v}{x}{n}$ & \verb$\MAX\bind{v}{x}{n}$ \\
+$\MIN\bind{v}{x}{n}$ & \verb$\MIN\bind{v}{x}{n}$ \\
+$f \ow g$ & \verb$f \ow g$ \\
+$h \ap f \ap x \ap g \ap y$ & \verb$h \ap f \ap x \ap g \ap y$
+\end{tabular}
+\end{center}
+
+
+\section{Program Theory}
+\begin{center}
+\begin{tabular}{ll}
+$\ok$ & \verb$\ok$ \\
+$S \dc R$ & \verb$S \dc R$ \\
+$x \get e$ & \verb$x \get e$
+\end{tabular}
+\end{center}
+\end{document}

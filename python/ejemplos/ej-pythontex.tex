@@ -1,0 +1,22 @@
+\documentclass{scrreprt}
+
+\usepackage{pythontex}
+
+\makeatletter
+\newcommand{\printlength}[1]{%
+  \begingroup\edef\x{\endgroup
+    \noexpand\py{printtexlength(\strip@pt\dimexpr#1\relax)}}\x}
+\makeatother
+
+\begin{document}
+
+\begin{pycode}
+def printtexlength(length):
+    print('Length is %f' % length)
+\end{pycode}
+\printlength{\textwidth}
+
+\printlength{1in}
+
+
+\end{document}

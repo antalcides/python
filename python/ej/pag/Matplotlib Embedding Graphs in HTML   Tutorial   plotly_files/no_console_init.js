@@ -1,0 +1,1 @@
+(function(){var e,d=function(){},b=["assert","clear","count","debug","dir","dirxml","error","exception","group","groupCollapsed","groupEnd","info","log","markTimeline","profile","profileEnd","table","time","timeEnd","timeStamp","trace","warn"],c=b.length,a=(window.console=window.console||{});while(c--){e=b[c];if(!a[e]){a[e]=d;}}}());

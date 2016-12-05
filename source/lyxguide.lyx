@@ -1,0 +1,1851 @@
+#LyX 1.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 221
+\textclass article
+\begin_preamble
+\usepackage{amsmath}
+\end_preamble
+\language english
+\inputencoding auto
+\fontscheme default
+\graphics default
+\paperfontsize default
+\papersize Default
+\paperpackage a4
+\use_geometry 0
+\use_amsmath 0
+\use_natbib 0
+\use_numerical_citations 0
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\quotes_times 2
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+
+\layout Title
+
+A Simple Guide to Latex/Lyx
+\layout Author
+
+stat@rice helpdesk
+\layout Section*
+
+Preparation
+\layout Standard
+
+Run the following commands in a *nix shell (do not enter prompt > ):
+\layout Quote
+
+
+\family typewriter 
+> wget http://www.stat.rice.edu/~helpdesk/howto/lyxdemo.tar.gz
+\newline 
+> tar zxf lyxdemo.tar.gz
+\layout Standard
+
+
+\family typewriter 
+wget 
+\family default 
+is a useful command to grab something from the web.
+ Using appropriate command options, it can download the whole web site (or
+ only files of certain types) recursively.
+ See 
+\family typewriter 
+man wget
+\family default 
+ for details.
+ 
+\family typewriter 
+tar
+\family default 
+ command is used to uncompress and expand 
+\family typewriter 
+.tar.gz
+\family default 
+ file.
+ If you are using a windows machine, you can use a browser to download the
+ file.
+ Something like winRAR has to be used to uncompress the file.
+\layout Standard
+
+The demo file 
+\family typewriter 
+lyxdemo.tar.gz
+\family default 
+ contains the following files:
+\layout Enumerate
+
+
+\family typewriter 
+demoarticle.tex
+\family default 
+ and 
+\family typewriter 
+drawing.eps, demoarticle.ps, 
+\family default 
+a demo latex file with its output.
+\layout Enumerate
+
+
+\family typewriter 
+essential.tex
+\family default 
+, an excellent introduction to latex by 
+\emph on 
+Jon Warbrick.
+\layout Enumerate
+
+
+\family typewriter 
+latexintro.pdf
+\family default 
+, 
+\emph on 
+The Not So Short Introduction to 
+\begin_inset ERT
+status Collapsed
+
+\layout Standard
+
+\backslash 
+LaTeX2e 
+\end_inset 
+
+
+\emph default 
+ by 
+\emph on 
+Tobias Oetiker Hubert Partl, Irene Hyna and Elisabeth Schlegl.
+\layout Enumerate
+
+
+\family typewriter 
+Makefile
+\family default 
+, a makefile to simplify the use of latex related commands
+\layout Enumerate
+
+
+\family typewriter 
+latexsymbol.ps
+\family default 
+, list of latex symbols
+\layout Enumerate
+
+
+\family typewriter 
+lyxguide.lyx
+\family default 
+, this file
+\layout Enumerate
+
+
+\family typewriter 
+personal.bind 
+\family default 
+and 
+\family typewriter 
+reference.lyx
+\family default 
+ , 
+\family typewriter 
+reference.ps
+\family default 
+, helpdesk lyx bind file with its reference 
+\layout Enumerate
+
+
+\family typewriter 
+demo.bib
+\family default 
+, a sample bibtex file
+\layout Section*
+
+Latex Basics
+\layout Standard
+
+
+\family typewriter 
+demoarticle.tex
+\family default 
+ is the latex source file.
+ You are supposed to input it (in whatever way you like).
+ 
+\family typewriter 
+demoarticle.ps
+\family default 
+ is one of the several possible outputs.
+ You need to 
+\emph on 
+compile 
+\emph default 
+the source code to obtain it.
+ Print and read 
+\family typewriter 
+demoarticle.tex
+\family default 
+ and
+\family typewriter 
+ demoarticle.ps
+\family default 
+ side by side and try to guess how the latex commands correspond to the
+ output.
+ It is important for you to understand
+\layout Enumerate
+
+document class: the document class determines the overall layout of the
+ document.
+ Changing the document class will change 
+\emph on 
+a lot 
+\emph default 
+of your output layout.
+\layout Enumerate
+
+environments (
+\family typewriter 
+
+\backslash 
+start{itemize}
+\family default 
+ and 
+\family typewriter 
+
+\backslash 
+end{itemize}
+\family default 
+ etc)
+\layout Enumerate
+
+difference between inline (
+\family typewriter 
+$$
+\family default 
+) and displayed (
+\family typewriter 
+
+\backslash 
+[ 
+\backslash 
+]
+\family default 
+) formula.
+
+\family typewriter 
+ 
+\layout Enumerate
+
+
+\family typewriter 
+_
+\family default 
+, 
+\family typewriter 
+^ 
+\family default 
+are for subscript and superscript.
+ 
+\layout Enumerate
+
+
+\family typewriter 
+
+\backslash 
+sqrt, 
+\backslash 
+sin, 
+\backslash 
+alpha, 
+\backslash 
+beta
+\family default 
+ are math symbols or functions
+\layout Enumerate
+
+
+\family typewriter 
+
+\backslash 
+label
+\family default 
+ and 
+\family typewriter 
+
+\backslash 
+ref
+\family default 
+.
+ 
+\family typewriter 
+
+\backslash 
+label 
+\family default 
+is used to name an equation, section etc so that we can refer to them by
+\family typewriter 
+ 
+\backslash 
+ref.
+\layout Enumerate
+
+How tables and figures are included.
+ 
+\layout Section*
+
+Latex commands
+\layout Standard
+
+You should first prepare a 
+\family typewriter 
+.tex 
+\family default 
+file, say 
+\family typewriter 
+article.tex
+\family default 
+, then
+\layout Enumerate
+
+
+\family typewriter 
+latex article.tex
+\family default 
+, obtain 
+\family typewriter 
+article.dvi
+\layout Enumerate
+
+
+\family typewriter 
+xdvi artivle.dvi
+\family default 
+, view the dvi file
+\layout Enumerate
+
+
+\family typewriter 
+dvips article.dvi
+\family default 
+, translate dvi to postscript format
+\layout Enumerate
+
+
+\family typewriter 
+gv article.ps
+\family default 
+, view ps file
+\layout Enumerate
+
+
+\family typewriter 
+ps2pdf article.ps
+\family default 
+, translate ps to pdf format
+\layout Enumerate
+
+
+\family typewriter 
+acroread article.pdf
+\family default 
+, view pdf file (
+\family typewriter 
+xpdf
+\family default 
+ can also be used.)
+\layout Enumerate
+
+
+\family typewriter 
+pdflatex article.tex
+\family default 
+, obtain a pdf file directly from .tex file
+\layout Enumerate
+
+
+\family typewriter 
+latex2html article.tex
+\family default 
+, translate the article to html format.
+\layout Standard
+
+You can use a make file to simplify all these.
+ (see sample make file 
+\family typewriter 
+Makefile
+\family default 
+).
+ The commands will be simlified to 
+\family typewriter 
+make view
+\family default 
+, 
+\family typewriter 
+make pdf
+\family default 
+, 
+\family typewriter 
+make web
+\family default 
+ etc.
+ Note that there are many options for these commands which makes 
+\family typewriter 
+make
+\family default 
+ especially useful.
+\newline 
+
+\layout Standard
+\noindent 
+
+\series bold 
+Practice: 
+\layout Enumerate
+
+Try to understand every latex command.
+ Use a editor, input the following formula: 
+\begin_inset Formula $E\left(e^{i\xi X}\right)=\int e^{i\xi x}dF\left(x\right)$
+\end_inset 
+
+..
+ 
+\newline 
+
+\series bold 
+Hint
+\series default 
+: integral 
+\family typewriter 
+
+\backslash 
+int
+\family default 
+, subscript
+\family typewriter 
+ _
+\family default 
+, superscript 
+\family typewriter 
+^
+\family default 
+, 
+\begin_inset Formula $\xi$
+\end_inset 
+
+ 
+\family typewriter 
+
+\backslash 
+xi
+\family default 
+, use 
+\family typewriter 
+{} 
+\family default 
+to group items, use 
+\family typewriter 
+
+\backslash 
+left( 
+\backslash 
+right)
+\family default 
+ for big parenthesis and 
+\family typewriter 
+()
+\family default 
+ for small parenthesis.
+\layout Enumerate
+\noindent 
+Compile and view 
+\family typewriter 
+demoarticle.tex
+\family default 
+.
+ 
+\layout Enumerate
+
+Convert the dvi file to 
+\family typewriter 
+ps
+\family default 
+ and 
+\family typewriter 
+pdf
+\family default 
+ format and view them with appropriate viewers.
+\layout Enumerate
+\noindent 
+Modify 
+\family typewriter 
+makefile 
+\family default 
+so that you can use 
+\family typewriter 
+make view 
+\family default 
+etc to compile and view 
+\family typewriter 
+essential.tex
+\family default 
+.
+ 
+\layout Enumerate
+\noindent 
+Read 
+\family typewriter 
+essential.ps
+\family default 
+ for a more detailed description of latex basics.
+\layout Subsection*
+
+Start Lyx and set the bind file
+\layout Standard
+
+Type
+\layout Quote
+
+
+\family typewriter 
+lyx 
+\layout Standard
+
+to start lyx.
+ If this is the first time you run 
+\family typewriter 
+lyx
+\family default 
+, 
+\family typewriter 
+lyx
+\family default 
+ will try to detect the latex settings and generate a 
+\family typewriter 
+.lyx
+\family default 
+ directory under your home directory.
+ This is where you put your personal settings.
+ It is highly recommended that you use helpdesk bind file.
+ It contains 
+\emph on 
+a lot of
+\emph default 
+ keyboard shortcuts for rapid input almost all important math symbols.
+ To use helpdesk bind file, copy the provided bind file to 
+\family typewriter 
+~/.lyx/bind
+\layout Quote
+
+
+\family typewriter 
+cp ~/lyxdemo/personal.bind ~/.lyx/bind/
+\layout Standard
+
+To activate this bind file, you will need to set 
+\family typewriter 
+Edit -> Preference -> interface -> bind file -> Browse -> User bind -> personal.b
+ind
+\family default 
+ and then restart lyx.
+ Press 
+\family typewriter 
+C-g b
+\family default 
+ (press 
+\family typewriter 
+Control
+\family default 
+ and 
+\family typewriter 
+g
+\family default 
+ keys, release both keys and then press
+\family typewriter 
+ b
+\family default 
+), if you can see 
+\begin_inset Formula $\beta$
+\end_inset 
+
+, the bind file is loaded correctly.
+ Before you get used to all the shortcuts, it is a good idea to keep a copy
+ of shortcut reference with you.
+ (
+\family typewriter 
+reference.ps
+\family default 
+)
+\newline 
+
+\layout Standard
+\noindent 
+
+\series bold 
+Practice: 
+\series default 
+Start and reconfigure lyx.
+ Load helpdesk bind file.
+ Print 
+\family typewriter 
+reference.ps
+\family default 
+ and have a look at the key bindings.
+ 
+\layout Section*
+
+Your First Lyx Document
+\layout Standard
+
+Play with the menus for a while, guess what they mean.
+ Then
+\layout Enumerate
+
+start a new lyx file.
+\layout Enumerate
+
+go to 
+\family typewriter 
+Layout -> Document.
+
+\family default 
+ Choose
+\family typewriter 
+ article (AMS)
+\family default 
+ as your document class since we will be using ams math package.
+ Note that if you use the standard 
+\family typewriter 
+article
+\family default 
+ class and 
+\family typewriter 
+insert -> math -> case environment
+\family default 
+ or other AMS only environments, you will get compile errors.
+ This is among the `
+\emph on 
+easiest ways to get compile errors of lyx
+\emph default 
+'.
+ If this happens, you can either
+\begin_deeper 
+\layout Enumerate
+
+change your document class to 
+\family typewriter 
+ams
+\family default 
+ ones or,
+\layout Enumerate
+
+
+\family typewriter 
+Layout -> Document -> Packages -> Use AMS Math
+\family default 
+, or
+\layout Enumerate
+
+put 
+\begin_deeper 
+\layout LyX-Code
+
+
+\backslash 
+usepackage{amsmath}
+\layout Standard
+
+in the preamble.
+ (
+\family typewriter 
+layout -> Document -> preamble.
+\family default 
+)
+\end_deeper 
+\end_deeper 
+\layout Enumerate
+
+The leftmost drop list on the toolbar is the 
+\emph on 
+environment list 
+\emph default 
+(roughly the same as latex environments).
+ Enter title, author, chapter, subchapter etc of the sample file and choose
+ the right environment for them.
+ Note that
+\family typewriter 
+ Chapter*
+\family default 
+ is the non-numbered version of 
+\family typewriter 
+Chapter
+\family default 
+ environment.
+\layout Section*
+
+View your document
+\layout Standard
+
+Save your file.
+ Learn to 
+\layout Enumerate
+
+Use 
+\family typewriter 
+View -> DVI
+\family default 
+ to view dvi output, 
+\family typewriter 
+View -> PostScript
+\family default 
+ to view ps output.
+ Lyx actually export the lyx file to latex and call 
+\family typewriter 
+latex, xdvi, postscript
+\family default 
+ etc to do these.
+ If you are interested in the underlying latex source, 
+\family typewriter 
+File
+\family default 
+ 
+\family typewriter 
+-> Export -> Latex 
+\family default 
+and read the generated latex file.
+\layout Enumerate
+
+Modify your document and then 
+\family typewriter 
+View -> update -> DVI
+\family default 
+, 
+\family typewriter 
+View -> Update -> PostScript
+\family default 
+ (you will need to reload the ps file from gv) to see updated output.
+\layout Enumerate
+
+Learn shortcuts 
+\family typewriter 
+F9
+\family default 
+, 
+\family typewriter 
+F10
+\family default 
+, 
+\family typewriter 
+F11
+\family default 
+, 
+\family typewriter 
+F12.
+\layout Standard
+\noindent 
+
+\series bold 
+Practice: 
+\series default 
+Enter the first several paragraphs of the sample document.
+\layout Standard
+\noindent 
+
+\series bold 
+Hint:
+\series default 
+ 
+\layout Enumerate
+\noindent 
+
+\family typewriter 
+F4
+\family default 
+, 
+\family typewriter 
+F5
+\family default 
+, 
+\family typewriter 
+F6
+\family default 
+ corresponds to normal, bold, emphasis fonts.
+ (only for helpdesk bind file)
+\layout Enumerate
+\noindent 
+Use 
+\family typewriter 
+C-M
+\family default 
+ to enter math mode.
+ Use 
+\family typewriter 
+arrow
+\family default 
+ or 
+\family typewriter 
+blank 
+\family default 
+keys to get out.
+ 
+\layout Section*
+
+Input Math Formula - basic inline formula
+\layout Standard
+
+There are three ways to enter math mode: (fast to slow) 
+\layout Enumerate
+
+
+\family typewriter 
+Ctrl-M
+\family default 
+ (
+\family typewriter 
+Ctrl-M 
+\family default 
+means press the 
+\family typewriter 
+Ctrl
+\family default 
+ and 
+\family typewriter 
+M
+\family default 
+ keys at the same time.
+ In 
+\family typewriter 
+reference.tex,
+\family default 
+ 
+\family typewriter 
+C
+\family default 
+ stands for 
+\family typewriter 
+Control
+\family default 
+, 
+\family typewriter 
+S
+\family default 
+ stands for 
+\family typewriter 
+shift
+\family default 
+ and 
+\family typewriter 
+M
+\family default 
+ stands for 
+\family typewriter 
+meta 
+\family default 
+(right 
+\family typewriter 
+Alt
+\family default 
+ key for windows keyboard)), or
+\layout Enumerate
+
+click the 
+\begin_inset Formula $\frac{a+b}{c}$
+\end_inset 
+
+ icon on the toolbar, or
+\layout Enumerate
+
+
+\family typewriter 
+insert -> math -> inline formula
+\layout Standard
+
+To enter math symbols, you can either (slow to fast)
+\layout Enumerate
+
+Use Math Panel (right click an existing formula or 
+\family typewriter 
+insert -> math -> math panel ...
+\family default 
+), or
+\layout Enumerate
+
+In math mode, enter 
+\family typewriter 
+
+\backslash 
+
+\family default 
+ plus symbol name, e.g.
+ enter 
+\family typewriter 
+
+\backslash 
+alpha
+\family default 
+ for 
+\begin_inset Formula $\alpha$
+\end_inset 
+
+, 
+\family typewriter 
+
+\backslash 
+propto
+\family default 
+ for 
+\begin_inset Formula $\propto$
+\end_inset 
+
+.
+ For symbol names, see
+\family typewriter 
+ latexsymbol.ps
+\family default 
+.
+ or
+\layout Enumerate
+
+Use shortcuts (see shortcut reference).
+ For example,
+\family typewriter 
+ C-g a 
+\family default 
+for 
+\begin_inset Formula $\alpha$
+\end_inset 
+
+, 
+\family typewriter 
+C-g r 
+\family default 
+for 
+\begin_inset Formula $\rho$
+\end_inset 
+
+, 
+\family typewriter 
+C-s 1
+\family default 
+ for 
+\begin_inset Formula $\rightarrow$
+\end_inset 
+
+,
+\family typewriter 
+ C-s i
+\family default 
+ for 
+\begin_inset Formula $\infty$
+\end_inset 
+
+.
+ Basically, 
+\family typewriter 
+C-g
+\family default 
+ means Greek character and 
+\family typewriter 
+C-s
+\family default 
+ means symbol.
+\layout Standard
+
+Character Accent:
+\layout Enumerate
+
+Use math panel or
+\layout Enumerate
+
+Use shortcuts 
+\family typewriter 
+C-_
+\family default 
+,
+\family typewriter 
+~
+\family default 
+,
+\family typewriter 
+^ 
+\family default 
+etc , e.g., 
+\family typewriter 
+C-^ C-g a 
+\family default 
+inputs 
+\begin_inset Formula $\hat{\alpha}$
+\end_inset 
+
+.
+ For wide accent (e.g.
+ 
+\begin_inset Formula $\widehat{a+b}$
+\end_inset 
+
+) , use 
+\family typewriter 
+Meta-_
+\family default 
+,
+\family typewriter 
+~
+\family default 
+,
+\family typewriter 
+^
+\family default 
+ instead.
+\layout Standard
+
+Delimiters:
+\layout Standard
+\noindent 
+The sizes of ( ) may be small for math equations.
+ The following delimiters are paired (so they are easier to input) and can
+ change their sizes according to their context.
+\layout Enumerate
+
+Use math panel or
+\layout Enumerate
+
+Use
+\family typewriter 
+ Ctrl + ( ) [ ] { } |
+\family default 
+ etc to input paired delimeters.
+ Shortcuts for one side delimeters are also available.
+\layout Standard
+
+Other important shortcuts:
+\layout Enumerate
+
+
+\family typewriter 
+C-UpArrow 
+\family default 
+superscript, 
+\family typewriter 
+C-DownArrow
+\family default 
+ subscript, I prefer 
+\family typewriter 
+C-h/C-l
+\family default 
+ though.
+\layout Enumerate
+
+
+\family typewriter 
+C-/
+\family default 
+ fraction
+\family typewriter 
+, C-s b
+\family default 
+ binomial
+\family typewriter 
+, C-s r
+\family default 
+ root 
+\layout Enumerate
+
+
+\family typewriter 
+C-s s
+\family default 
+ stack 
+\layout Standard
+\align left 
+
+\series bold 
+Practice: 
+\series default 
+Input formula: 
+\begin_inset Formula $\sqrt{n}\left(\frac{\bar{X}-\mu}{\sigma}\right)\stackrel{d}{\rightarrow}N\left(0,1\right)$
+\end_inset 
+
+.
+ 
+\layout Standard
+\align left 
+
+\series bold 
+Hint
+\series default 
+: 
+\family typewriter 
+
+\backslash 
+sqrt 
+\family default 
+or 
+\family typewriter 
+C-r
+\family default 
+ for 
+\begin_inset Formula $\sqrt{}$
+\end_inset 
+
+, 
+\family typewriter 
+C-(
+\family default 
+ for 
+\begin_inset Formula $\left(\right)$
+\end_inset 
+
+, 
+\family typewriter 
+
+\backslash 
+sigma or
+\family default 
+ 
+\family typewriter 
+C-s s
+\family default 
+ for 
+\begin_inset Formula $\sigma$
+\end_inset 
+
+, 
+\family typewriter 
+C-_ X
+\family default 
+ for 
+\begin_inset Formula $\bar{X}$
+\end_inset 
+
+, 
+\family typewriter 
+
+\backslash 
+mu
+\family default 
+ or 
+\family typewriter 
+C-g m 
+\family default 
+for 
+\begin_inset Formula $\mu$
+\end_inset 
+
+,
+\family typewriter 
+ C-s s
+\family default 
+ for stack,
+\family typewriter 
+ C-s 1
+\family default 
+ or 
+\family typewriter 
+Alt-RightArrow
+\family default 
+ for 
+\begin_inset Formula $\rightarrow$
+\end_inset 
+
+.
+\layout Section*
+
+Input Math Formula - displayed 
+\layout Standard
+
+All previous plus: 
+\layout Enumerate
+
+
+\family typewriter 
+C-d
+\family default 
+ for displayed formula.
+ (helpdesk bindfile only)
+\layout Enumerate
+
+
+\family typewriter 
+C-d 
+\family default 
+in inline/display formula will toggle between them.
+\layout Enumerate
+
+If you prefer AMS align environments, 
+\family typewriter 
+insert -> math -> AMS align environment 
+\family default 
+etc
+\layout Enumerate
+
+In displayed formula, use 
+\family typewriter 
+C-enter
+\family default 
+ to enter 
+\family typewriter 
+equarray environment
+\family default 
+.
+ It is important to know that the middle cells are used for alignment purpose
+ so only characters like =, >, < etc are welcome.
+ To add more lines, use
+\family typewriter 
+ C-Enter
+\family default 
+ at the end of a line.
+\layout Enumerate
+
+
+\family typewriter 
+Insert -> label
+\family default 
+ to name a formula, then use
+\family typewriter 
+ insert -> cross reference
+\family default 
+ to refer to it.
+ Use
+\family typewriter 
+ C-n
+\family default 
+, 
+\family typewriter 
+C-N 
+\family default 
+to toggle numbering.
+ 
+\layout Standard
+
+Important Usuage hints:
+\layout Enumerate
+
+In math mode, use 
+\family typewriter 
+C-M
+\family default 
+ to enter text mode.
+ (If you know latex, it is
+\family typewriter 
+ $ 
+\backslash 
+text{ } $
+\family default 
+.) Then, you 
+\emph on 
+can not 
+\emph default 
+use C-M again to enter math mode within the text mode.
+ Use right-arrow to 
+\emph on 
+step out 
+\emph default 
+of the text mode.
+ 
+\series bold 
+\emph on 
+You will get compile error if you input math symbols in text mode.
+ 
+\layout Enumerate
+
+
+\family typewriter 
+C-s c
+\family default 
+ for 2 cases, 
+\family typewriter 
+C-s C
+\family default 
+ for 3 cases.
+ (need ams package and helpdesk bindfile)
+\layout Enumerate
+
+
+\family typewriter 
+C-s m
+\family default 
+ for 2 by 2 matrix, 
+\family typewriter 
+C-s M
+\family default 
+ for 3 by 3 matrix, 
+\family typewriter 
+C-s C-m a b
+\family default 
+ for 
+\family typewriter 
+a
+\family default 
+ by 
+\family typewriter 
+b
+\family default 
+ matrix.
+ 
+\layout Enumerate
+
+use 
+\family typewriter 
+Edit -> math 
+\family default 
+to add/delete row, column of a matrix or change alignment.
+\layout Enumerate
+
+Sometimes, you will need one side delimiter, use math panel or shortcuts.
+\layout Standard
+
+
+\series bold 
+Practice: 
+\series default 
+Input formula: 
+\layout Section*
+
+
+\begin_inset Formula \begin{eqnarray*}
+x & = & \begin{cases}
+\frac{1}{n} & \textrm{w.p. }\frac{1}{n}\\
+n & \textrm{w.p. }1-\frac{1}{n}\end{cases}\\
+y & = & x^{2}\end{eqnarray*}
+
+\end_inset 
+
+
+\layout Standard
+
+
+\series bold 
+Hint
+\series default 
+: '=' should be in the middle cell of the equarray.
+ You can use either 
+\family typewriter 
+insert -> math -> case environment 
+\family default 
+or one side dilimiter 
+\family typewriter 
+{
+\family default 
+ 
+\family typewriter 
+(C-s {
+\family default 
+) and then a 2 by 2 matrix.
+ Use 
+\family typewriter 
+C-M
+\family default 
+ to toggle between text/math mode ( for text w.p.) and 
+\family typewriter 
+edit -> math 
+\family default 
+to change alignment, if necessary.
+ 
+\layout Section*
+
+Figure and Table
+\layout Standard
+
+It is time to mention two ways of organizing tables and figures.
+ The first one is fixed.
+ The tables or figures will be put where you insert them.
+ If there is not enough room in the current page, it will be put to the
+ next page but the rest of the current page will be left blank.
+ Floating tables and figures are designed to overcome this problem.
+ They will be put automatically according to a complex machanism to achieve
+ best layout.
+\layout Standard
+
+To insert fixed table/figure: 
+\layout Quote
+
+
+\family typewriter 
+insert -> tabular material insert -> Graphics
+\layout Standard
+
+To insert floating table/figure: 
+\layout Quote
+
+
+\family typewriter 
+insert -> floats -> table/figure, 
+\layout Standard
+
+then
+\family typewriter 
+ insert -> table/graphics 
+\family default 
+within the floating box.
+\layout Standard
+
+To set the floating preferences, right click the red 'float' box.
+ Usually, you need to set size and rotate propertiies.
+ 
+\layout Section*
+
+Spell Checker
+\layout Standard
+
+In plain latex, it is rather difficult to use a spell checker.
+ Now, you can use 
+\family typewriter 
+edit -> spellchecker.
+\layout Section*
+
+Nested Environment
+\layout Standard
+
+The concept of 'depth' of an environment is important.
+ Two very import shortcuts to remember are 
+\family typewriter 
+C-Left/RightArrow, 
+\family default 
+or equivalently 
+\family typewriter 
+Layout -> Change environment depth.
+ 
+\family default 
+To make depth adjustment easier, 
+\layout Enumerate
+
+There are many differnt 'enter's.
+
+\family typewriter 
+ Alt-Enter
+\family default 
+ will keep environment type and depth.
+
+\family typewriter 
+ Ctrl-enter
+\family default 
+ will break line but do not break paragraph, enter will break paragraph
+ and go to depth 1.
+\layout Enumerate
+
+standard is also an environment (different from plain latex) .
+ For example, you want to insert a centered table within a enumerate environment
+, start a paragraph, select as 
+\family typewriter 
+standard 
+\family default 
+environment, use
+\family typewriter 
+ C-RightArrow
+\family default 
+ to make it one depth higher than the 
+\family typewriter 
+enumerate 
+\family default 
+environment and then choose 
+\family typewriter 
+layout -> paragraph -> center
+\family default 
+.
+\layout Enumerate
+
+If you use environment change a lot, it is time to learn shortcuts 
+\family typewriter 
+C-p T 
+\family default 
+(title), 
+\family typewriter 
+C-p s
+\family default 
+ (standard), 
+\family typewriter 
+C-p 2, 3,4
+\family default 
+, (section, subsection etc).
+\layout Section*
+
+Advanced Topic: Latex code, ERT and preamble.
+\layout Enumerate
+
+If you know latex pretty well and know how to do something quicker in plain
+ latex, do so.
+ Click the red 
+\begin_inset Formula $TeX$
+\end_inset 
+
+ botton on the toolbar, enter appropriate latex comand.
+ The text will be in red so it is called Evil Red Text (ERT).
+ E.g.
+ you can use ERT 
+\family typewriter 
+$x^2$
+\family default 
+ to input 
+\begin_inset Formula $x^{2}$
+\end_inset 
+
+.
+ One popular ERT is 
+\begin_deeper 
+\layout Quote
+
+
+\family typewriter 
+
+\backslash 
+vspace{1in}
+\end_deeper 
+\layout Enumerate
+
+If you have a big trunk of plain latex code, you can include them directly
+ in your lyx file through ERT.
+ Anyway, if you have a full latex file, importing it into lyx would be better.
+\layout Enumerate
+
+If you need to set preamble (read 
+\family typewriter 
+latexinto.pdf
+\family default 
+ to see what preamble is), use 
+\family typewriter 
+Layout -> Preamble
+\family default 
+.
+ Useful preambles include
+\begin_deeper 
+\layout Quote
+
+
+\family typewriter 
+
+\backslash 
+usepackage{amsmath}
+\layout Quote
+
+
+\family typewriter 
+
+\backslash 
+numberwithin{thm}{section}
+\end_deeper 
+\layout Quote
+
+the first one include amsmath package (in case that you do not use ams class.)
+ The second one control how the equations will be numbered.
+\layout Section*
+
+Advanced Topic: Insert Source Code
+\layout Standard
+
+If you would like to include your source code into lyx, you can
+\layout Enumerate
+
+
+\family typewriter 
+insert -> float -> algorithm
+\layout Enumerate
+
+set caption 
+\layout Enumerate
+
+copy the source code from emacs etc
+\layout Enumerate
+
+select 
+\family typewriter 
+lyx Code
+\family default 
+ environment 
+\layout Enumerate
+
+
+\family typewriter 
+Edit -> paste extenal selection -> as lines.
+\layout Section*
+
+Advanced Topic: Citation and Bibliographics
+\layout Standard
+
+I would suggest the following way of dealing with bibliographic item.
+ 
+\layout Enumerate
+
+Keep your bibs in a separate bibtex file.
+ (see 
+\family typewriter 
+sample.bib
+\family default 
+ file)
+\layout Enumerate
+
+use 
+\family typewriter 
+tkbibtex 
+\family default 
+to edit the bib files.
+ Try to keep track of all articles you have read in this way.
+ (Jabref may be easier to use under windows).
+\layout Enumerate
+
+In lyx, 
+\family typewriter 
+insert -> Lists & TOC -> Bibtex reference
+\family default 
+ at the end of the document.
+ Enter the path to your bib file, do not change the style (default as 
+\family typewriter 
+plain
+\family default 
+) if you do not know other styles.
+ If you do, 
+\family typewriter 
+plainnat, natbib (layout -> document -> bibliographics -> use natlib) 
+\family default 
+will be helpful.
+\layout Enumerate
+
+
+\family typewriter 
+Insert -> citation reference
+\family default 
+, use arrow in the dialog to insert citation.
+\layout Standard
+
+Lyx (actually latex) will take care of everything else for you.
+ Note that you can use ERT 
+\family typewriter 
+
+\backslash 
+nocite{*} 
+\family default 
+to insert bib items into your document without actually cite them.
+\newline 
+
+\layout Standard
+\align left 
+
+\series bold 
+Practice:
+\series default 
+ Using sample.bib, insert a citation into your lyx file.
+\layout Section*
+
+Advanced Topic: Import/Export latex file
+\layout Standard
+
+
+\family typewriter 
+File -> Export -> Latex
+\family default 
+ will export your lyx file to 
+\family typewriter 
+.tex 
+\family default 
+file.
+ 
+\family typewriter 
+File -> import -> Latex 
+\family default 
+can import most of the 'clean' latex files.
+ However, because of the complexity of latex, lyx can not load very complicated
+ latex files, especially when they use non-standard document style, lots
+ of macros etc.
+ It is advised that you use lyx from the beginning rather than import a
+ half-done latex file.
+ If lyx fails to import your tex file, try to hand-clean it before you import
+ it to lyx.
+ 
+\newline 
+
+\layout Standard
+\align left 
+
+\series bold 
+Practice:
+\series default 
+ Export your lyx file to latex and have a look at it.
+ Then import it into lyx again.
+\layout Section*
+
+Advanced Topic: Key bindings
+\layout Standard
+
+Lyx uses a key-binding file to determine the key-bindings at start time.
+ You can choose from Emacs, SWP, CUA style by specifying the appropriate
+ file at:
+\layout Quote
+
+
+\family typewriter 
+Edit -> Preferences -> Look and Feel -> Interface -> Bind File
+\layout Standard
+
+You can add your own key bindings by 
+\layout Enumerate
+
+copying a system binding file to ~/.lyx/bind 
+\layout Enumerate
+
+Modify it.
+ 
+\layout Enumerate
+
+Set this bind file in preference dialog
+\layout Standard
+
+The syntax of bind file is pretty easy, here is a few example:
+\layout Quote
+
+
+\family typewriter 
+
+\backslash 
+bind "C-f" "math-insert 
+\backslash 
+frac" 
+\newline 
+
+\backslash 
+bind "F5" "font-bold"
+\layout Standard
+
+The first line binds
+\family typewriter 
+ Ctrl-f
+\family default 
+ to 
+\family typewriter 
+
+\backslash 
+frac
+\family default 
+ (fraction).
+ The second one maps 
+\family typewriter 
+F5
+\family default 
+ to 
+\family typewriter 
+font-bold
+\family default 
+ as SWP does.
+ For more examples, have a look at the system bind files at 
+\family typewriter 
+/usr/site/lyx/share/lyx/bind
+\family default 
+ or my personal bind file.
+ 
+\newline 
+
+\layout Standard
+\align left 
+
+\series bold 
+Practice: 
+\series default 
+Open ~/.lyx/bind/personal.bind, insert a keybinding that bind C-s h to 
+\backslash 
+aleph (
+\begin_inset Formula $\aleph$
+\end_inset 
+
+).
+ Save personal.bind, restart lyx, try to insert 
+\begin_inset Formula $\aleph$
+\end_inset 
+
+.
+\layout Section*
+
+Advanced Topic: Export to HTML
+\layout Standard
+
+You can use insert -> URL to insert a URL.
+ However, if you export -> html (or view html), there will be no html style
+ link.
+ This is not lyx's fault since there is no standard way of dealing link
+ in latex.
+ I, however, figure out a patch to do this.
+ 
+\layout Enumerate
+
+Save your lyx file, say article.lyx
+\layout Enumerate
+
+/home/helpdesk/bin/lyx2tex article.lyx
+\layout Enumerate
+
+latex2html article.tex
+\layout Standard
+
+Basically, I modify the lyx file a little bit to let it create 'latex2html'
+ style link so that latex2html can recognize and create real links.
+ It would be convenient to use the provided make file.
+\layout Section*
+
+Advaced Topic: Pitfalls about lyx
+\layout Standard
+
+Lyx is not perfect.
+ It has many problems that may irritate even experienced users, and you
+ will sooner or later meet some.
+ Fortunately, lyx is becoming better and better and its user mailing list
+ is very friendly.
+ (I am in that list, you can always send me questions and if I can not answer
+ them, I will post them to the list.) Certain precautions should be made
+\layout Enumerate
+
+Compile (press F11) frequently, if any error occurs (latex compile error),
+ you know you made the mistake in recently input texts.
+\layout Enumerate
+
+If the problem persists, export to latex and try to see what forbid latex
+ from compiling.
+ This is where latex knowledge becomes very useful.
+ Anyway, if you can avoid the following two common problems, you can use
+ lyx for a long time without having to face compile error:
+\begin_deeper 
+\layout Enumerate
+
+use AMS package when you input AMS-specific environments like cases, align
+ etc.
+\layout Enumerate
+
+do not enter math symbol in text mode.
+ (Use right-arrow to step out of text mode instead of using nested math
+ mode.)
+\end_deeper 
+\layout Enumerate
+
+Latex output is in general beautiful.
+ However, you will run into trouble if you want to do fancy things like
+ putting a logo on every page etc.
+ (It is doable but needs the right, if not lots of, latex code.) You can
+ find a lot of such tricks from lyx webpage.
+ 
+\layout Enumerate
+
+You might need to use some other style (class) file.
+ For example, you will need to write your thesis with some provided class
+ file.
+ It is possible to incorporate outside layout file into lyx but it would
+ be simpler to export your lyx file to latex and modify it (especially when
+ your advisor does not use lyx.)
+\layout Section*
+
+Advanced Topic: Windows version of lyx 
+\layout Standard
+
+Since lyx depends on various Unix tools and the X-windows system, you will
+ have to provide all of them on your windows machine before lyx can be installed.
+ That is to say, you will have windows version of latex (teTeX), of Unix
+ (Cygwin), of X (X-win32 or Xfree86), of ghostview etc.
+ Detailed instructions can be googled through 
+\begin_inset Quotes eld
+\end_inset 
+
+lyx windows
+\begin_inset Quotes erd
+\end_inset 
+
+.
+ There is recently a native lyx port that may be easier to install.
+\the_end

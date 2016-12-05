@@ -1,0 +1,97 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Citing PythonTeX}{}% 2
+\BOOKMARK [1][-]{section.3}{Installing and running}{}% 3
+\BOOKMARK [2][-]{subsection.3.1}{Installing PythonTeX}{section.3}% 4
+\BOOKMARK [2][-]{subsection.3.2}{Compiling documents using PythonTeX}{section.3}% 5
+\BOOKMARK [1][-]{section.4}{Usage}{}% 6
+\BOOKMARK [2][-]{subsection.4.1}{Package options}{section.4}% 7
+\BOOKMARK [2][-]{subsection.4.2}{Commands and environments}{section.4}% 8
+\BOOKMARK [3][-]{subsubsection.4.2.1}{Inline commands}{subsection.4.2}% 9
+\BOOKMARK [3][-]{subsubsection.4.2.2}{Environments}{subsection.4.2}% 10
+\BOOKMARK [3][-]{subsubsection.4.2.3}{Console command and environment families}{subsection.4.2}% 11
+\BOOKMARK [3][-]{subsubsection.4.2.4}{Default families}{subsection.4.2}% 12
+\BOOKMARK [3][-]{subsubsection.4.2.5}{Custom code}{subsection.4.2}% 13
+\BOOKMARK [3][-]{subsubsection.4.2.6}{PythonTeX utilities class}{subsection.4.2}% 14
+\BOOKMARK [3][-]{subsubsection.4.2.7}{Formatting of typeset code}{subsection.4.2}% 15
+\BOOKMARK [3][-]{subsubsection.4.2.8}{Access to printed content \(stdout\) and error messages \(stderr\)}{subsection.4.2}% 16
+\BOOKMARK [2][-]{subsection.4.3}{Pygments commands and environments}{section.4}% 17
+\BOOKMARK [2][-]{subsection.4.4}{General code typesetting}{section.4}% 18
+\BOOKMARK [3][-]{subsubsection.4.4.1}{Listings float}{subsection.4.4}% 19
+\BOOKMARK [3][-]{subsubsection.4.4.2}{Background colors}{subsection.4.4}% 20
+\BOOKMARK [3][-]{subsubsection.4.4.3}{Referencing code by line number}{subsection.4.4}% 21
+\BOOKMARK [3][-]{subsubsection.4.4.4}{Beamer compatibility}{subsection.4.4}% 22
+\BOOKMARK [2][-]{subsection.4.5}{Advanced PythonTeX usage}{section.4}% 23
+\BOOKMARK [2][-]{subsection.4.6}{Working with other programs}{section.4}% 24
+\BOOKMARK [3][-]{subsubsection.4.6.1}{latexmk}{subsection.4.6}% 25
+\BOOKMARK [1][-]{section.5}{depythontex}{}% 26
+\BOOKMARK [2][-]{subsection.5.1}{Preparing a document that will be converted}{section.5}% 27
+\BOOKMARK [2][-]{subsection.5.2}{Removing PythonTeX dependence}{section.5}% 28
+\BOOKMARK [2][-]{subsection.5.3}{Technical details}{section.5}% 29
+\BOOKMARK [1][-]{section.6}{LaTeX programming with PythonTeX}{}% 30
+\BOOKMARK [2][-]{subsection.6.1}{Macro programming with PythonTeX}{section.6}% 31
+\BOOKMARK [2][-]{subsection.6.2}{Package writing with PythonTeX}{section.6}% 32
+\BOOKMARK [1][-]{section.7}{Support for additional languages}{}% 33
+\BOOKMARK [2][-]{subsection.7.1}{Ruby}{section.7}% 34
+\BOOKMARK [2][-]{subsection.7.2}{Julia}{section.7}% 35
+\BOOKMARK [2][-]{subsection.7.3}{Octave}{section.7}% 36
+\BOOKMARK [2][-]{subsection.7.4}{Adding support for a new language}{section.7}% 37
+\BOOKMARK [3][-]{subsubsection.7.4.1}{Template}{subsection.7.4}% 38
+\BOOKMARK [3][-]{subsubsection.7.4.2}{Wrapper}{subsection.7.4}% 39
+\BOOKMARK [3][-]{subsubsection.7.4.3}{The CodeEngine class}{subsection.7.4}% 40
+\BOOKMARK [3][-]{subsubsection.7.4.4}{Creating the LaTeX interface}{subsection.7.4}% 41
+\BOOKMARK [1][-]{section.8}{Troubleshooting}{}% 42
+\BOOKMARK [1][-]{section.9}{The future of PythonTeX}{}% 43
+\BOOKMARK [2][-]{subsection.9.1}{To Do}{section.9}% 44
+\BOOKMARK [3][-]{subsubsection.9.1.1}{Modifications to make}{subsection.9.1}% 45
+\BOOKMARK [3][-]{subsubsection.9.1.2}{Modifications to consider}{subsection.9.1}% 46
+\BOOKMARK [1][-]{section*.3}{Version History}{}% 47
+\BOOKMARK [1][-]{section.10}{Implementation}{}% 48
+\BOOKMARK [2][-]{subsection.10.1}{Package opening}{section.10}% 49
+\BOOKMARK [2][-]{subsection.10.2}{Required packages}{section.10}% 50
+\BOOKMARK [2][-]{subsection.10.3}{Package options}{section.10}% 51
+\BOOKMARK [3][-]{subsubsection.10.3.1}{Enabling command and environment families}{subsection.10.3}% 52
+\BOOKMARK [3][-]{subsubsection.10.3.2}{Gobble}{subsection.10.3}% 53
+\BOOKMARK [3][-]{subsubsection.10.3.3}{Beta}{subsection.10.3}% 54
+\BOOKMARK [3][-]{subsubsection.10.3.4}{Runall}{subsection.10.3}% 55
+\BOOKMARK [3][-]{subsubsection.10.3.5}{Rerun}{subsection.10.3}% 56
+\BOOKMARK [3][-]{subsubsection.10.3.6}{Hashdependencies}{subsection.10.3}% 57
+\BOOKMARK [3][-]{subsubsection.10.3.7}{Autoprint}{subsection.10.3}% 58
+\BOOKMARK [3][-]{subsubsection.10.3.8}{Debug}{subsection.10.3}% 59
+\BOOKMARK [3][-]{subsubsection.10.3.9}{makestderr}{subsection.10.3}% 60
+\BOOKMARK [3][-]{subsubsection.10.3.10}{stderrfilename}{subsection.10.3}% 61
+\BOOKMARK [3][-]{subsubsection.10.3.11}{Python's \137\137future\137\137 module}{subsection.10.3}% 62
+\BOOKMARK [3][-]{subsubsection.10.3.12}{Upquote}{subsection.10.3}% 63
+\BOOKMARK [3][-]{subsubsection.10.3.13}{Fix math spacing}{subsection.10.3}% 64
+\BOOKMARK [3][-]{subsubsection.10.3.14}{Keep temporary files}{subsection.10.3}% 65
+\BOOKMARK [3][-]{subsubsection.10.3.15}{Pygments}{subsection.10.3}% 66
+\BOOKMARK [3][-]{subsubsection.10.3.16}{Python console environment}{subsection.10.3}% 67
+\BOOKMARK [3][-]{subsubsection.10.3.17}{depythontex}{subsection.10.3}% 68
+\BOOKMARK [3][-]{subsubsection.10.3.18}{Process options}{subsection.10.3}% 69
+\BOOKMARK [2][-]{subsection.10.4}{Utility macros and input/output setup}{section.10}% 70
+\BOOKMARK [3][-]{subsubsection.10.4.1}{Automatic counter creation}{subsection.10.4}% 71
+\BOOKMARK [3][-]{subsubsection.10.4.2}{Saving verbatim content in macros}{subsection.10.4}% 72
+\BOOKMARK [3][-]{subsubsection.10.4.3}{Code context}{subsection.10.4}% 73
+\BOOKMARK [3][-]{subsubsection.10.4.4}{Code groups}{subsection.10.4}% 74
+\BOOKMARK [3][-]{subsubsection.10.4.5}{File input and output}{subsection.10.4}% 75
+\BOOKMARK [3][-]{subsubsection.10.4.6}{Interface to fancyvrb}{subsection.10.4}% 76
+\BOOKMARK [3][-]{subsubsection.10.4.7}{Access to printed content \(stdout\)}{subsection.10.4}% 77
+\BOOKMARK [3][-]{subsubsection.10.4.8}{Access to stderr}{subsection.10.4}% 78
+\BOOKMARK [3][-]{subsubsection.10.4.9}{depythontex}{subsection.10.4}% 79
+\BOOKMARK [2][-]{subsection.10.5}{Inline commands}{section.10}% 80
+\BOOKMARK [3][-]{subsubsection.10.5.1}{Inline core macros}{subsection.10.5}% 81
+\BOOKMARK [3][-]{subsubsection.10.5.2}{Inline command constructors}{subsection.10.5}% 82
+\BOOKMARK [2][-]{subsection.10.6}{Environments}{section.10}% 83
+\BOOKMARK [3][-]{subsubsection.10.6.1}{Block and verbatim environment constructors}{subsection.10.6}% 84
+\BOOKMARK [3][-]{subsubsection.10.6.2}{Code environment constructor}{subsection.10.6}% 85
+\BOOKMARK [3][-]{subsubsection.10.6.3}{Console environment constructor}{subsection.10.6}% 86
+\BOOKMARK [2][-]{subsection.10.7}{Constructors for command and environment families}{section.10}% 87
+\BOOKMARK [2][-]{subsection.10.8}{Default commands and environment families}{section.10}% 88
+\BOOKMARK [2][-]{subsection.10.9}{Listings environment}{section.10}% 89
+\BOOKMARK [2][-]{subsection.10.10}{Pygments for general code typesetting}{section.10}% 90
+\BOOKMARK [2][-]{subsection.10.11}{Pygments utilities macros}{section.10}% 91
+\BOOKMARK [3][-]{subsubsection.10.11.1}{Inline Pygments command}{subsection.10.11}% 92
+\BOOKMARK [3][-]{subsubsection.10.11.2}{Pygments environment}{subsection.10.11}% 93
+\BOOKMARK [3][-]{subsubsection.10.11.3}{Special Pygments commands}{subsection.10.11}% 94
+\BOOKMARK [3][-]{subsubsection.10.11.4}{Creating the Pygments commands and environment}{subsection.10.11}% 95
+\BOOKMARK [2][-]{subsection.10.12}{Final cleanup}{section.10}% 96
+\BOOKMARK [2][-]{subsection.10.13}{Compatibility with beta releases}{section.10}% 97

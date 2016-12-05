@@ -1,0 +1,18 @@
+\documentclass{article}
+
+\usepackage{pgfplots}
+
+\newlength\figureheight
+\newlength\figurewidth
+
+\begin{document}
+
+\setlength\figureheight{2in}
+\setlength\figurewidth{3in}
+\InputIfFileExists{fig.tikz}{}{\textbf{!! Missing graphics !!}}
+
+\setlength\figureheight{3in}
+\setlength\figurewidth{4in}
+\InputIfFileExists{fig.tikz}{}{\textbf{!! Missing graphics !!}}
+
+\end{document}

@@ -1,0 +1,42 @@
+\documentclass{article}
+
+\usepackage{pgfplots}
+\usepackage[stdout=false]{pythontex}
+% matplotlib2tikz prints messages to stdout, so don't include
+% stdout automatically; could also redirect stdout to avoid this
+\setpythontexworkingdir{.}
+% set PythonTeX to use the document root directory as the working
+% directory, so that all plots will be saved there; could use 
+% another location, but then would need to specify a path when
+% using \input and \InputIfFileExists
+
+\newlength\figureheight
+\newlength\figurewidth
+
+\begin{document}
+
+\begin{pycode}
+from pylab import *
+from matplotlib2tikz import save as tikz_save
+x = linspace(0, 10, 101)
+plot(x, sin(x))
+xlabel('$x$-axis')
+ylabel('$y$-axis')
+tikz_save('fig2.tikz',
+       figureheight = '\\figureheight',
+       figurewidth = '\\figurewidth')
+\end{pycode}
+
+\setlength\figureheight{2in}
+\setlength\figurewidth{3in}
+\InputIfFileExists{fig2.tikz}{}{\textbf{!! Missing graphics !!}}
+\begin{figure}
+\centering
+\setlength\figureheight{3in}
+\setlength\figurewidth{4in}
+\InputIfFileExists{fig2.tikz}{}{\textbf{!! Missing graphics !!}}
+\caption{Prueba de Matplotlib generando Tikz}
+\label{tikz}
+\end{figure}
+
+\end{document}

@@ -1,0 +1,94 @@
+\documentclass{article}
+\usepackage{float}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\pgfplotsset{plot coordinates/math parser=false}
+\usepackage{gnuplot-lua-tikz}
+
+\begin{document}
+
+  \begin{figure}
+    \newlength\figureheight
+    \newlength\figurewidth
+    \setlength\figureheight{0.15\textheight}
+    \setlength\figurewidth{0.5\textwidth}
+    \input{myfile.tikz}
+  \end{figure}\vspace{5pt}
+  \begin{figure}
+       \setlength\figureheight{0.25\textheight}
+    \setlength\figurewidth{0.7\textwidth}
+    \input{myfile2.tikz}
+  \end{figure}\vspace{5pt}
+  \begin{figure}
+       \setlength\figureheight{0.15\textheight}
+    \setlength\figurewidth{0.4\textwidth}
+    \input{myfile3.tikz}
+  \end{figure}\vspace{5pt}
+  \begin{figure}
+       \setlength\figureheight{0.05\textheight}
+    \setlength\figurewidth{0.1\textwidth}
+    \input{myfile4.tikz}
+  \end{figure}\vspace{5pt}
+  \begin{figure}
+       \setlength\figureheight{0.25\textheight}
+    \setlength\figurewidth{0.7\textwidth}
+    \input{myfile5.tikz}
+  \end{figure}\vspace{5pt}
+  \begin{figure}
+       \setlength\figureheight{0.25\textheight}
+    \setlength\figurewidth{0.7\textwidth}
+    \input{myfile6.tikz}
+  \end{figure}\vspace{5pt}
+  \begin{figure}
+       \setlength\figureheight{0.25\textheight}
+    \setlength\figurewidth{0.7\textwidth}
+    \input{myfile7.tikz}
+  \end{figure}\vspace{5pt}
+  \begin{figure}[H]
+  \centering
+       \setlength\figureheight{0.25\textheight}
+    \setlength\figurewidth{0.7\textwidth}
+    \input{figsize.tikz}
+    \caption{Esta figura est\'a en tikz}
+  \end{figure}\vspace{5pt}
+  \begin{figure}[H]
+  \centering
+  \includegraphics[scale=1]{figsize.pdf}
+  \caption{Esta figura est\'a en pdf}
+  \end{figure}
+%   \begin{figure}[H]
+%  \centering
+%       \setlength\figureheight{0.25\textheight}
+%    \setlength\figurewidth{0.7\textwidth}
+%    \input{figsize1.tikz}
+%    \caption{Esta figura est\'a en tikz}
+%  \end{figure}\vspace{5pt}
+  \begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.5]{figsize1.pdf}
+  \caption{Esta figura est\'a en pdf}
+  \end{figure}
+   \begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.8]{figsize2.pdf}
+  \caption{Esta figura est\'a en pdf escala 0.8}
+  \end{figure}
+   \begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.8]{figsize3.pdf}
+  \caption{Esta figura est\'a en pdf escala 0.8}
+  \end{figure}
+  \begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.8]{figsize7.pdf}
+  \caption{Esta figura est\'a en pdf escala 0.8}
+  \end{figure}
+  \begin{figure}[H]
+  \centering
+      \input{sin.tex}
+  \caption{Esta figura est\'a en set terminal tikz de gnuplot a una  escala 0.8}
+  \end{figure}
+  
+  
+
+\end{document}

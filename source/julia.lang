@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+ This file is part of GtkSourceView
+
+ Author: Milan Bouchet-Valat <nalimilan@club.fr>
+ Copyright (C) 2003 Gustavo Giráldez <gustavo.giraldez@gmx.net>
+ Copyright (C) 2004 Benoît Dejean <TaZForEver@free.fr>
+ Copyright (C) 2006 Steve Frécinaux <nud@apinc.org>
+ Copyright (C) 2012 Stefano Palazzo <stefano-palazzo@ubuntu.com>
+ Copyright (C) 2013 Milan Bouchet-Valat <nalimilan@club.fr>
+
+ GtkSourceView is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
+
+ GtkSourceView is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
+-->
+<language id="julia" _name="Julia" version="2.0" _section="Scientific">
+  <metadata>
+    <property name="mimetypes">text/x-julia;application/x-julia</property>
+    <property name="globs">*.jl</property>
+    <property name="line-comment-start">#</property>
+  </metadata>
+
+  <styles>
+    <style id="module-handler"    _name="Module Handler"        map-to="def:preprocessor"/>
+    <style id="keyword"           _name="Keyword"               map-to="def:keyword"/>
+    <style id="multiline-string"  _name="Multiline string"      map-to="def:string"/>
+    <style id="string"            _name="String"                map-to="def:string"/>
+    <style id="character"         _name="Character"             map-to="def:character"/>
+    <style id="escaped-char"      _name="Escaped Character"     map-to="def:special-char"/>
+    <style id="format"            _name="Format"                map-to="def:character"/>
+    <style id="backward-quoted-string" _name="Backward-Quoted String" map-to="def:string"/>
+    <style id="boolean"           _name="Boolean"               map-to="def:boolean"/>
+    <style id="complex"           _name="Complex number"        map-to="def:complex"/>
+    <style id="floating-point"    _name="Floating point number" map-to="def:floating-point"/>
+    <style id="decimal"           _name="Decimal number"        map-to="def:decimal"/>
+    <style id="rational"          _name="Rational number"       map-to="def:decimal"/>
+    <style id="integer"           _name="Integer number"        map-to="def:decimal"/>
+    <style id="hex"               _name="Hexadecimal number"    map-to="def:decimal"/>
+    <style id="octal"             _name="Octal number"          map-to="def:decimal"/>
+    <style id="builtin-constant"  _name="Builtin Constant"      map-to="def:constant"/>
+    <style id="builtin-type"      _name="Builtin Type"          map-to="def:type"/>
+    <style id="builtin-object"    _name="Builtin Object"        map-to="def:type"/>
+    <style id="builtin-error"     _name="Builtin Error"         map-to="def:type"/>
+    <style id="builtin-function"  _name="Builtin Function"      map-to="def:builtin"/>
+  </styles>
+
+  <definitions>
+    <define-regex id="identifier">[_a-zA-Z\x{00A0}-\x{FFFF}][_a-zA-Z\x{00A0}-\x{FFFF}!]*</define-regex>
+    <define-regex id="number">[0-9]*</define-regex>
+
+    <!-- C-style printf() -->
+    <context id="format" style-ref="format" extend-parent="false">
+      <match extended="true">
+        %                       # leading % sign
+        \(\%{identifier}\)?     # mapping key
+        [#0\-\ \+]*             # conversion flags
+        (\-?\%{number}|\*)?     # minimum field width
+        (\.(\-?\%{number}|\*))? # precision
+        (hlL)?                  # lentgh modifier
+        [diouxXeEfFgGcrs%]      # conversion type
+      </match>
+    </context>
+
+    <!-- C-style escape sequences, http://en.wikipedia.org/wiki/C_syntax#Backslash_escapes -->
+    <context id="escaped-char" style-ref="escaped-char" extend-parent="true">
+      <match extended="true">
+        \\(                 # leading backslash
+        [\\'"abfnrtv]     | # single escaped char
+        u[0-9A-Fa-f]{4}   | # xxxx - character with 16-bit hex value xxxx
+        U[0-9A-Fa-f]{8}   | # xxxxxxxx - character with 32-bit hex value xxxxxxxx
+        x[0-9A-Fa-f]{1,2} | # \xhh - character with hex value hh
+        [0-7]{1,3}          # \ooo - character with octal value ooo
+        )
+      </match>
+    </context>
+
+    <define-regex id="regexp-string-prefix">r?</define-regex>
+    <define-regex id="byte-string-prefix">b?</define-regex>
+
+    <context id="multiline-double-quoted-string" style-ref="multiline-string" class="string" class-disabled="no-spell-check">
+      <start>"""</start>
+      <end>"""</end>
+      <include>
+        <context ref="format"/>
+        <context ref="escaped-char"/>
+      </include>
+    </context>
+
+    <context id="double-quoted-string" style-ref="string" end-at-line-end="true" class="string" class-disabled="no-spell-check">
+      <start>"</start>
+      <end>"</end>
+      <include>
+        <context ref="format"/>
+        <context ref="escaped-char"/>
+        <context ref="def:line-continue"/>
+      </include>
+    </context>
+
+    <context id="single-quoted-character" style-ref="string" end-at-line-end="true" class="character" class-disabled="no-spell-check">
+      <start>'</start>
+      <end>'</end>
+      <include>
+        <context ref="format"/>
+        <context ref="escaped-char"/>
+        <context ref="def:line-continue"/>
+      </include>
+    </context>
+
+    <context id="multiline-double-quoted-byte-string" style-ref="multiline-string" class="string" class-disabled="no-spell-check">
+      <start>\%{byte-string-prefix}"""</start>
+      <end>"""</end>
+      <include>
+        <context ref="format"/>
+      </include>
+    </context>
+    
+    <context id="double-quoted-byte-string" style-ref="string" end-at-line-end="true" class="string" class-disabled="no-spell-check">
+      <start>\%{byte-string-prefix}"</start>
+      <end>"</end>
+      <include>
+        <context ref="format"/>
+        <context ref="def:line-continue"/>
+      </include>
+    </context>
+
+    <context id="double-quoted-regexp-string" style-ref="string" end-at-line-end="true" class="string" class-disabled="no-spell-check">
+      <start>\%{regexp-string-prefix}"</start>
+      <end>"</end>
+      <include>
+        <context ref="format"/>
+        <context ref="def:line-continue"/>
+      </include>
+    </context>
+    
+    <context id="multiline-double-quoted-regexp-string" style-ref="multiline-string" class="string" class-disabled="no-spell-check">
+      <start>\%{regexp-string-prefix}"""</start>
+      <end>"""</end>
+      <include>
+        <context ref="format"/>
+      </include>
+    </context>
+
+    <context id="backward-quoted-string" style-ref="backward-quoted-string" end-at-line-end="true">
+      <start>`</start>
+      <end>`</end>
+      <include>
+        <context ref="julia"/>
+      </include>
+    </context>
+
+    <context id="boolean" style-ref="boolean">
+      <prefix>(?&lt;![\w\.])</prefix>
+      <keyword>false</keyword>
+      <keyword>true</keyword>
+    </context>
+
+    <define-regex id="float" extended="true">
+      ( (\d+)?\.\d+ | \d+\. ) |
+      ( (\d+|(\d+)?\.\d+|\d+\.)[eE][+-]?\d+ )
+    </define-regex>
+
+    <context id="complex" style-ref="complex">
+      <match>(?&lt;![\w\.])(\%{float}|\d+)im\b</match>
+    </context>
+
+    <context id="float" style-ref="floating-point">
+      <match>(?&lt;![\w\.])\%{float}(?![\w\.])</match>
+    </context>
+
+    <context id="decimal" style-ref="decimal">
+      <match>(?&lt;![\w\.])\d+(?![\w\.])</match>
+    </context>
+
+    <context id="rational" style-ref="rational">
+      <match>(?&lt;![\w\.])\d+//\d+(?![\w\.])</match>
+    </context>
+
+    <context id="integer" style-ref="integer">
+      <match>(?&lt;![\w\.])\d+(?![\w\.])</match>
+    </context>
+
+    <context id="hex" style-ref="hex">
+      <match>(?&lt;![\w\.])0x[0-9A-Fa-f](?![\w\.])</match>
+    </context>
+    
+    <context id="octal" style-ref="octal">
+      <match>(?&lt;![\w\.])0b[0-1](?![\w\.])</match>
+    </context>
+
+    <context id="module-handler" style-ref="module-handler">
+      <keyword>baremodule</keyword>
+      <keyword>export</keyword>
+      <keyword>import</keyword>
+      <keyword>importall</keyword>
+      <keyword>module</keyword>
+      <keyword>using</keyword>
+    </context>
+
+    <context id="keywords" style-ref="keyword">
+      <keyword>abstract</keyword>
+      <keyword>begin</keyword>
+      <keyword>bitstype</keyword>
+      <keyword>break</keyword>
+      <keyword>case</keyword>
+      <keyword>catch</keyword>
+      <keyword>ccall</keyword>
+      <keyword>const</keyword>
+      <keyword>continue</keyword>
+      <keyword>do</keyword>
+      <keyword>else</keyword>
+      <keyword>elseif</keyword>
+      <keyword>end</keyword>
+      <keyword>eval</keyword>
+      <keyword>finally</keyword>
+      <keyword>finally</keyword>
+      <keyword>for</keyword>
+      <keyword>function</keyword>
+      <keyword>global</keyword>
+      <keyword>if</keyword>
+      <keyword>in</keyword>
+      <keyword>immutable</keyword>
+      <keyword>let</keyword>
+      <keyword>local</keyword>
+      <keyword>macro</keyword>
+      <keyword>module</keyword>
+      <keyword>new</keyword>
+      <keyword>otherwise</keyword>
+      <keyword>quote</keyword>
+      <keyword>return</keyword>
+      <keyword>switch</keyword>
+      <keyword>throw</keyword>
+      <keyword>try</keyword>
+      <keyword>type</keyword>
+      <keyword>typealias</keyword>
+      <keyword>while</keyword>
+    </context>
+
+    <context id="builtin-type" style-ref="builtin-type">
+      <prefix>(?&lt;![\w\.])</prefix>
+      <keyword>AbstractArray</keyword>
+      <keyword>AbstractMatrix</keyword>
+      <keyword>AbstractSparseMatrix</keyword>
+      <keyword>AbstractVector</keyword>
+      <keyword>Any</keyword>
+      <keyword>Array</keyword>
+      <keyword>ASCIIString</keyword>
+      <keyword>Associative</keyword>
+      <keyword>BigFloat</keyword>
+      <keyword>BigInt</keyword>
+      <keyword>Bool</keyword>
+      <keyword>ByteString</keyword>
+      <keyword>Char</keyword>
+      <keyword>Complex</keyword>
+      <keyword>Complex128</keyword>
+      <keyword>Complex64</keyword>
+      <keyword>ComplexPair</keyword>
+      <keyword>DArray</keyword>
+      <keyword>DataArray</keyword>
+      <keyword>DataFrame</keyword>
+      <keyword>Dict</keyword>
+      <keyword>Exception</keyword>
+      <keyword>Expr</keyword>
+      <keyword>Float16</keyword>
+      <keyword>Float32</keyword>
+      <keyword>Float64</keyword>
+      <keyword>FloatingPoint</keyword>
+      <keyword>Function</keyword>
+      <keyword>Inf</keyword>
+      <keyword>Inf32</keyword>
+      <keyword>Int</keyword>
+      <keyword>Int16</keyword>
+      <keyword>Int32</keyword>
+      <keyword>Int64</keyword>
+      <keyword>Int8</keyword>
+      <keyword>Integer</keyword>
+      <keyword>IntSet</keyword>
+      <keyword>IO</keyword>
+      <keyword>IOStream</keyword>
+      <keyword>Matrix</keyword>
+      <keyword>NA</keyword>
+      <keyword>NamedArray</keyword>
+      <keyword>NamedVector</keyword>
+      <keyword>NaN</keyword>
+      <keyword>NaN316</keyword>
+      <keyword>NaN32</keyword>
+      <keyword>None</keyword>
+      <keyword>Nothing</keyword>
+      <keyword>NTuple</keyword>
+      <keyword>Number</keyword>
+      <keyword>ObjectIdDict</keyword>
+      <keyword>Ptr</keyword>
+      <keyword>Range</keyword>
+      <keyword>Range1</keyword>
+      <keyword>Ranges</keyword>
+      <keyword>Rational</keyword>
+      <keyword>Real</keyword>
+      <keyword>Regex</keyword>
+      <keyword>RegexMatch</keyword>
+      <keyword>Set</keyword>
+      <keyword>Signed</keyword>
+      <keyword>SparseMatrixCSC</keyword>
+      <keyword>StridedArray</keyword>
+      <keyword>StridedMatrix</keyword>
+      <keyword>StridedVecOrMat</keyword>
+      <keyword>StridedVector</keyword>
+      <keyword>String</keyword>
+      <keyword>SubArray</keyword>
+      <keyword>SubString</keyword>
+      <keyword>Symbol</keyword>
+      <keyword>Task</keyword>
+      <keyword>Tuple</keyword>
+      <keyword>Type</keyword>
+      <keyword>Uint</keyword>
+      <keyword>Uint16</keyword>
+      <keyword>Uint32</keyword>
+      <keyword>Uint64</keyword>
+      <keyword>Uint8</keyword>
+      <keyword>Union</keyword>
+      <keyword>Unsigned</keyword>
+      <keyword>UTF8String</keyword>
+      <keyword>VecOrMat</keyword>
+      <keyword>Vector</keyword>
+      <keyword>Void</keyword>
+      <keyword>WeakRef</keyword>
+    </context>
+
+    <context id="builtin-object" style-ref="builtin-object">
+      <prefix>(?&lt;![\w\.])</prefix>
+      <keyword>C_NULL</keyword>
+      <keyword>ENV</keyword>
+      <keyword>Main</keyword>
+      <keyword>nothing</keyword>
+      <keyword>Pkg</keyword>
+      <keyword>pi</keyword>
+    </context>
+
+    <context id="builtin-error" style-ref="builtin-error">
+      <prefix>(?&lt;![\w\.])</prefix>
+      <keyword>ArgumentError</keyword>
+      <keyword>BoundsError</keyword>
+      <keyword>DivideByZeroError</keyword>
+      <keyword>DivideError</keyword>
+      <keyword>DomainError</keyword>
+      <keyword>EOFError</keyword>
+      <keyword>InexactError</keyword>
+      <keyword>KeyError</keyword>
+      <keyword>LoadError</keyword>
+      <keyword>MemoryError</keyword>
+      <keyword>MethodError</keyword>
+      <keyword>OverflowError</keyword>
+      <keyword>ParseError</keyword>
+      <keyword>SingularError</keyword>
+      <keyword>StackOverflowError</keyword>
+      <keyword>SystemError</keyword>
+      <keyword>tError</keyword>
+      <keyword>TypeError</keyword>
+      <keyword>UnboundError</keyword>
+      <keyword>UndefRefError</keyword>
+      <keyword>UnsatError</keyword>
+      <keyword>UVError</keyword>
+    </context>
+
+    <context id="builtin-function" style-ref="builtin-function">
+      <prefix>(?&lt;![\w\.])</prefix>
+      <keyword>@\\w+</keyword>
+      <keyword>append</keyword>
+      <keyword>base</keyword>
+      <keyword>beginswith</keyword>
+      <keyword>by</keyword>
+      <keyword>captures</keyword>
+      <keyword>cd</keyword>
+      <keyword>cell</keyword>
+      <keyword>char</keyword>
+      <keyword>chomp</keyword>
+      <keyword>chop</keyword>
+      <keyword>clipboard</keyword>
+      <keyword>close</keyword>
+      <keyword>cmp</keyword>
+      <keyword>collect</keyword>
+      <keyword>colnames</keyword>
+      <keyword>complement</keyword>
+      <keyword>copy</keyword>
+      <keyword>count</keyword>
+      <keyword>dec</keyword>
+      <keyword>deepcopy</keyword>
+      <keyword>delete</keyword>
+      <keyword>describe</keyword>
+      <keyword>deserialize</keyword>
+      <keyword>detach</keyword>
+      <keyword>divrem</keyword>
+      <keyword>done</keyword>
+      <keyword>download</keyword>
+      <keyword>eachmatch</keyword>
+      <keyword>endswith</keyword>
+      <keyword>eof</keyword>
+      <keyword>evalfile</keyword>
+      <keyword>fill</keyword>
+      <keyword>filter</keyword>
+      <keyword>float</keyword>
+      <keyword>get</keyword>
+      <keyword>gethostname</keyword>
+      <keyword>getipaddr</keyword>
+      <keyword>getkey</keyword>
+      <keyword>getpid</keyword>
+      <keyword>groupby</keyword>
+      <keyword>haskey</keyword>
+      <keyword>hcat</keyword>
+      <keyword>head</keyword>
+      <keyword>hex</keyword>
+      <keyword>htol</keyword>
+      <keyword>hvcat</keyword>
+      <keyword>ignorestatus</keyword>
+      <keyword>include</keyword>
+      <keyword>index</keyword>
+      <keyword>insert</keyword>
+      <keyword>int</keyword>
+      <keyword>intersect</keyword>
+      <keyword>isa</keyword>
+      <keyword>isalnum</keyword>
+      <keyword>isalpha</keyword>
+      <keyword>isascii</keyword>
+      <keyword>isblank</keyword>
+      <keyword>iscntrl</keyword>
+      <keyword>isdigit</keyword>
+      <keyword>isgraph</keyword>
+      <keyword>islower</keyword>
+      <keyword>isopen</keyword>
+      <keyword>isprint</keyword>
+      <keyword>ispunct</keyword>
+      <keyword>isreadonly</keyword>
+      <keyword>isspace</keyword>
+      <keyword>issubset</keyword>
+      <keyword>isupper</keyword>
+      <keyword>isxdigit</keyword>
+      <keyword>join</keyword>
+      <keyword>keys</keyword>
+      <keyword>kill</keyword>
+      <keyword>lcfirst</keyword>
+      <keyword>length</keyword>
+      <keyword>linspace</keyword>
+      <keyword>lowercase</keyword>
+      <keyword>lpad</keyword>
+      <keyword>lstrip</keyword>
+      <keyword>ltoh</keyword>
+      <keyword>map</keyword>
+      <keyword>mapreduce</keyword>
+      <keyword>match</keyword>
+      <keyword>matchall</keyword>
+      <keyword>maximum</keyword>
+      <keyword>merge</keyword>
+      <keyword>minimum</keyword>
+      <keyword>mkdir</keyword>
+      <keyword>mkpath</keyword>
+      <keyword>oct</keyword>
+      <keyword>offset</keyword>
+      <keyword>offsets</keyword>
+      <keyword>open</keyword>
+      <keyword>pop</keyword>
+      <keyword>position</keyword>
+      <keyword>print</keyword>
+      <keyword>printf</keyword>
+      <keyword>println</keyword>
+      <keyword>process_exited</keyword>
+      <keyword>process_running</keyword>
+      <keyword>push</keyword>
+      <keyword>pwd</keyword>
+      <keyword>readcsv</keyword>
+      <keyword>readdlm</keyword>
+      <keyword>readsandwrite</keyword>
+      <keyword>readsfrom</keyword>
+      <keyword>readtable</keyword>
+      <keyword>reduce</keyword>
+      <keyword>reinterpret</keyword>
+      <keyword>reload</keyword>
+      <keyword>removeNA</keyword>
+      <keyword>replace</keyword>
+      <keyword>replaceNA</keyword>
+      <keyword>require</keyword>
+      <keyword>reshape</keyword>
+      <keyword>reverse</keyword>
+      <keyword>rmdir</keyword>
+      <keyword>round</keyword>
+      <keyword>rpad</keyword>
+      <keyword>rsearch</keyword>
+      <keyword>rsplit</keyword>
+      <keyword>rstrip</keyword>
+      <keyword>run</keyword>
+      <keyword>show</keyword>
+      <keyword>search</keyword>
+      <keyword>seek</keyword>
+      <keyword>seekend</keyword>
+      <keyword>seekstart</keyword>
+      <keyword>serialize</keyword>
+      <keyword>Set</keyword>
+      <keyword>setdiff</keyword>
+      <keyword>setenv</keyword>
+      <keyword>shift</keyword>
+      <keyword>similar</keyword>
+      <keyword>skip</keyword>
+      <keyword>sort</keyword>
+      <keyword>spawn</keyword>
+      <keyword>splice</keyword>
+      <keyword>split</keyword>
+      <keyword>sprintf</keyword>
+      <keyword>stack</keyword>
+      <keyword>start</keyword>
+      <keyword>strftime</keyword>
+      <keyword>strip</keyword>
+      <keyword>success</keyword>
+      <keyword>symdiff</keyword>
+      <keyword>tail</keyword>
+      <keyword>time</keyword>
+      <keyword>tuple</keyword>
+      <keyword>ucfirst</keyword>
+      <keyword>unshift</keyword>
+      <keyword>uppercase</keyword>
+      <keyword>utf8</keyword>
+      <keyword>values</keyword>
+      <keyword>vcat</keyword>
+      <keyword>write</keyword>
+      <keyword>writecsv</keyword>
+      <keyword>writedlm</keyword>
+      <keyword>writesto</keyword>
+      <keyword>writetable</keyword>
+      <keyword>zip</keyword>
+    </context>
+
+    <context id="julia" class="no-spell-check">
+      <include>
+        <context ref="def:shebang"/>
+        <context ref="def:shell-like-comment"/>
+        <context ref="multiline-double-quoted-string"/>
+        <context ref="double-quoted-string"/>
+        <context ref="single-quoted-character"/>
+        <context ref="multiline-double-quoted-byte-string"/>
+        <context ref="multiline-double-quoted-regexp-string"/>
+        <context ref="double-quoted-regexp-string"/>
+        <context ref="double-quoted-byte-string"/>
+        <context ref="backward-quoted-string"/>
+        <context ref="complex"/>
+        <context ref="float"/>
+        <context ref="decimal"/>
+        <context ref="rational"/>
+        <context ref="integer"/>
+        <context ref="boolean"/>
+        <context ref="hex"/>
+        <context ref="octal"/>
+        <context ref="module-handler"/>
+        <context ref="keywords"/>
+        <context ref="builtin-type"/>
+        <context ref="builtin-object"/>
+        <context ref="builtin-function"/>
+      </include>
+    </context>
+  </definitions>
+</language>

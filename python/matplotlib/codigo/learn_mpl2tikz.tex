@@ -1,0 +1,34 @@
+% This file was created by matplotlib v0.1.0.
+% Copyright (c) 2010--2014, Nico Schlömer <nico.schloemer@gmail.com>
+% All rights reserved.
+% 
+% The lastest updates can be retrieved from
+% 
+% https://github.com/nschloe/matplotlib2tikz
+% 
+% where you can also submit bug reports and leavecomments.
+% 
+\begin{tikzpicture}
+
+\begin{axis}[
+xmin=-20, xmax=120,
+ymin=-20, ymax=120,
+axis on top,
+width=\figurewidth,
+height=\figureheight,
+xmajorgrids,
+ymajorgrids
+]
+\path [draw=blue, fill=blue] (axis cs:-0.5,-0.5)--(axis cs:0.5,0.5)(axis cs:-0.5,0.5)--(axis cs:0.5,-0.5);
+
+\path [draw=black, fill opacity=0] (axis cs:1,13)--(axis cs:1,13);
+
+\path [draw=black, fill opacity=0] (axis cs:13,1)--(axis cs:13,1);
+
+\path [draw=black, fill opacity=0] (axis cs:0,13)--(axis cs:0,13);
+
+\path [draw=black, fill opacity=0] (axis cs:13,0)--(axis cs:13,0);
+
+\end{axis}
+
+\end{tikzpicture}

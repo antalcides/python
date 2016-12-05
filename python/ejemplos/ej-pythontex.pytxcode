@@ -1,0 +1,31 @@
+=>PYTHONTEX#py#default#default#0#code#####13#
+def printtexlength(length):
+    print('Length is %f' % length)
+=>PYTHONTEX#py#default#default#1#i#####17#
+printtexlength(418.25555)
+=>PYTHONTEX#py#default#default#2#i#####19#
+printtexlength(72.26999)
+=>PYTHONTEX:SETTINGS#
+version=v0.12
+outputdir=pythontex-files-ej-pythontex
+workingdir=pythontex-files-ej-pythontex
+gobble=none
+rerun=default
+hashdependencies=default
+makestderr=false
+stderrfilename=full
+keeptemps=none
+pyfuture=default
+pyconfuture=none
+pygments=true
+pygglobal=:GLOBAL||
+fvextfile=-1
+pyconbanner=none
+pyconfilename=stdin
+depythontex=false
+pygfamily=py|python|
+pygfamily=pycon|pycon|
+pygfamily=sympy|python|
+pygfamily=sympycon|pycon|
+pygfamily=pylab|python|
+pygfamily=pylabcon|pycon|

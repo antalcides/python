@@ -1,0 +1,6 @@
+file encoding: None
+=========================================================
+Please add the following line to your LaTeX preamble:
+
+\usepackage{pgfplots}
+=========================================================

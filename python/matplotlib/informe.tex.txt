@@ -1,0 +1,297 @@
+\documentclass[11pt, a4paper]{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{multirow}
+\usepackage{color}
+
+\definecolor{gray97}{gray}{.97}
+\definecolor{gray75}{gray}{.75}
+\definecolor{gray45}{gray}{.45}
+\definecolor{string}{rgb}{0.5,0,0}
+\definecolor{keyword}{rgb}{0,0,1}
+\definecolor{comentario}{rgb}{0,0.66,0}
+
+\newcommand{\titulo}[1]{\noindent \newline \newline\bfseries{#1}}
+
+%para que no aparezca el numero de capitulo en la numeracion de las secciones
+\def\thesection{\arabic{section}}
+
+\usepackage{listings}
+\lstdefinelanguage{pyext}{
+    morecomment=[s]{\"\"\"}{\"\"\"}
+}
+
+\lstdefinestyle{python}
+    {language=Python,
+     alsolanguage=pyext
+    }
+\lstdefinestyle{salida}
+    {numbers=none,
+     frame=LTBR
+    }
+\lstset{ frame=Ltb,
+     framerule=0pt,
+     aboveskip=0.5cm,
+     framextopmargin=3pt,
+     framexbottommargin=3pt,
+     framexleftmargin=0.4cm,
+     framesep=0pt,
+     rulesep=.4pt,
+     rulesepcolor=\color{black},
+     %
+     stringstyle=\ttfamily\color{string},
+     showstringspaces = false,
+     basicstyle=\tiny\ttfamily,
+     commentstyle=\color{comentario},
+     keywordstyle=\bfseries\color{keyword},
+     %
+     numbers=left,
+     numbersep=15pt,
+     numberstyle=\tiny,
+     numberfirstline = false,
+     breaklines=true
+   }
+
+
+
+\begin{document}
+\tableofcontents
+\newpage
+%Introduccion: Objetivos y un resumen del trabajo (maximo una pagina)
+\chapter*{Introducción}
+\addcontentsline{toc}{chapter}{Introducción}
+
+El objetivo de este trabajo es resolver el problema físico del movimiento del péndulo, calculando el período $T$ utilizando dos métodos númericos distintos. Por un lado se hallará la función $\phi(t)$ que describe la evolución temporal del ángulo $\phi$ que forma el péndulo con la vertical en el punto de sujeción, integrando el problema a valores iniciales no-lineal 
+
+\begin{equation}
+	\frac{d^2\phi}{dt^2} + \frac{g}{L}\sin\,\phi = 0 \;\;\textrm{con} \;\; \phi(0)=A \textrm{ y } \left.\frac{d\phi}{dt}\right|_0 = 0
+	\label{eq:diferencialperiodo}
+\end{equation}
+
+donde $g=9.81\,\frac{m}{s^2}$ es la aceleración de la gravedad, $L=1\,m$ es la longitud del péndulo y $A=1.614778624$ es la amplitud angular.
+
+Por otro lado se resolverá la integral definida
+\begin{equation}
+	T=4\sqrt{\frac{L}{g}}\int_0^{\frac{\pi}{2}} \left(1-\sin^2\,(A/2)\sin^2(\varphi)\right)^{-\frac{1}{2}}\, d\varphi \;\; \textrm{si} \;\; 0 \leq A \leq \pi
+	\label{eq:integralperiodo}
+\end{equation}
+para hallar el período T.
+
+En ambos casos se trata de obtener $T$ con una precisión relativa del 1\%.
+
+Para ello se desarrolló un programa en \texttt{python}\footnote{www.python.org} que permite calcular la integral con distintos métodos y resolver el problema mediante el método de Runge-Kutta de orden 4.
+
+\chapter*{Solución utilizando integración numérica}
+\addcontentsline{toc}{chapter}{Solución utilizando integración numérica}
+La integración numérica consiste en aproximar el valor de la integral $I = \int_a^b f(x) \,\text{d}x$ mediante $I^*$ tal que $I = I^* + \xi$. El error cometido al hacer esta aproximación es $\xi = I - I^*$. Pero el valor de $I$ es desconocido, por lo que no es posible determinar mediante esa expresión el error cometido. En general $I^*$ es una función del paso $h$ utilizado.
+Existen muchos métodos para resolver este tipo de problemas que postulan diferentes fórmulas para $I^*(h)$, obtenidas generalmente aproximando el integrando mediante un polinomio, que estipulan el orden del error cometido ($O(h^p)$, donde $p$ es el orden de precisión del método).
+
+En este caso se resolvió la integral \eqref{eq:integralperiodo} aplicando el método de Romberg (sección \ref{sec:resultadosromberg}) que utiliza extrapolación de Richardson para mejorar la precisión de las soluciones obtenidas con el método de los trapecios con diferentes pasos de tiempo $h$ (sección \ref{sec:descromberg}). Además se resolvió por otros métodos para comparar los resultados obtenidos (sección \ref{sec:comparacion}).
+
+\section{Resolución por el método de Romberg}
+\subsection{Descripción del método}
+\label{sec:descromberg}
+El método de Romberg genera una tabla triangular con estimaciones numéricas del valor de la integral. Se basa en la extrapolación de Richardson para mejorar la precisión de los resultados obtenidos aplicando el método del trapecio con diferentes pasos de tiempo $h$. La extrapolación de Richardson puede aplicarse a cualquier método que dependa del paso de cálculo, y estipula que si se calcula el resultado usando un método $F(h)$ de orden $p$, entonces
+\[ G = \frac{F(h_1) - F(h_2)}{1-\left(\frac{h_2}{h_1}\right)^p} \]
+es $O(h^r)$ con $r>p$.
+
+En particular el método de Romberg parte calculando dos estimaciones con el método del trapecio que es $O(h^2)$ usando dos pasos diferentes (di\-vi\-dien\-do a la mitad el primer paso) y extrapolando el resultado obtiene uno que es $O(h^4)$. Si se calcula un nuevo valor con el trapecio (dividiendo nuevamente a la mitad el último paso utilizado), permite volver a aplicar extrapolación dos veces y obtener un resultado $O(h^6)$, y así sucesivamente (ver tabla)
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{c c c c}
+		    $R_{0,0}$&&&\\
+		    $R_{1,0}$& $R_{1,1}$ & &\\
+		    $\vdots$ & $\vdots$  & $\ddots$ & \\
+		    $R_{n,0}$ & $R_{n,1}$ & $\cdots$ & $R_{n,n}$ 
+		\end{tabular}
+	\end{center}
+\end{table}
+
+donde $R_{n,m}$ es $O(h_n^{2m+1})$ con $h_n = \frac{b-a}{2^n}$.
+
+De esta forma, sabemos que el resultado $R_{n,n}$ es más preciso que el resultado $R_{n,n-1}$, y como la diferencia entre pasos sucesivos debe hacerse cada vez más chica si el método converge, podemos decir en general que el resultado es $R_{n,n}$ y que
+\begin{equation}
+	\left|I - R_{n,n}\right| \leq |R_{n,n} - R_{n,n-1}|
+	\label{eq:truncromberg}
+\end{equation}
+
+Se eligió este método justamente por la facilidad de calcular la precisión del resultado, además de que permite obtener un grado de precisión mayor usando operaciones relativamente simples.
+
+\subsection{Resultados}
+\label{sec:resultadosromberg}
+Se desarrolló la función \emph{romberg(f, a, b, tol)} que calcula la integral de $f$ entre $a$ y $b$ con un error menor que $tol$, aplicando el criterio \eqref{eq:truncromberg}, e imprime la tabla triangular con los resultados parciales. Integrando \eqref{eq:integralperiodo} entre $0$ y $\pi/2$ con una tolerancia de $0.01$ se obtuvieron los siguientes resultados (tabla \ref{tab:resultadosromberg}).
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{c c c}
+			$2.45421$&&\\
+			$2.39409$ & $2.37405$&\\
+			$2.39263$ & $2.39214$ & $2.39335$ 
+		\end{tabular}
+	\end{center}
+	\caption{Resultados obtenidos al aplicar el método de Romberg.}
+	\label{tab:resultadosromberg}
+\end{table}
+
+De esta forma, considerando lo dicho más arriba, podemos afirmar que $T=2.39$ es una estimación con 1\% de precisión del período $T$.
+
+\subsection{Comparación con otros métodos}
+\label{sec:comparacion}
+Se codificaron funciones para resolver una integral definida por los métodos del trapecio, de simpson, y aplicando las fórmulas abiertas de Newton-Cotes con $n=0$ y $n=1$.
+% Newton cotes (0 y 1) son O(h^3)
+% Trapecio tambien es O(h^3)
+% Trapecio compuesto es O(h^2)
+% Simpson es O(h^5)
+
+En la siguiente tabla se muestran los resultados obtenidos con estos métodos y la diferencia absoluta con el resultado obtenido con el método de Romberg (que asumimos como el más exacto).
+\begin{table}[H]
+	\begin{center}
+    	\begin{tabular}{| l | c | c |}
+        	\hline
+        	 & \textbf{Resultado} & \textbf{Error}\\ \hline
+        	\textbf{Trapecio} & $2.454$ & $0.061$ \\ \hline
+        	\textbf{Simpson} & $2.374$ & $0.019$ \\ \hline
+        	\textbf{Newton-Cotes} (0) & $2.334$ & $0.059$ \\ \hline
+        	\textbf{Newton-Cotes} (1) & $2.362$ & $0.031$ \\ \hline
+        	
+        \end{tabular}
+    \end{center}
+\end{table}
+
+
+\chapter*{Solución utilizando Runge-Kutta}
+\addcontentsline{toc}{chapter}{Solución utilizando Runge-Kutta}
+El método de Runge-Kutta permite resolver un problema de valores iniciales lineal. Para resolver el problema no-lineal \eqref{eq:diferencialperiodo} se planteó el cambio de variable $\displaystyle \frac{d\phi}{dt}=y$ obteniendo el siguiente sistema de ecuaciones diferenciales de orden uno
+\begin{equation}
+	\left\{\begin{array}{l l r}
+           		\displaystyle \frac{dy}{dt} = -\frac{g}{L}\sin \phi & \mbox{ con } y(0) = 0  &\;\;\; \mbox{(3.1)}\\ \\
+           		\displaystyle \frac{d\phi}{dt} = y & \mbox{ con } \phi(0) = A &\;\;\; \mbox{(3.2)}
+           \end{array}\right.
+	\label{eq:sistema}
+\end{equation}
+
+Aplicando el método de Runge-Kutta de orden 4 a la (3.1) se tiene que $q_1 = q_2 = q_3 = q_4 = q$ pues la función $f(y, t)$ en realidad no depende de $y$ ni de $t$. De esta forma se obtiene
+
+\[ U_{n+1} = U_n + q \]
+
+Para la (3.2) tenemos $k_1 = k_2 = k_3 = k_4 = k$, ya que nuevamente la función $g(\phi, t)$ no depende de $\phi$ ni de $t$. Entonces
+
+\[ V_{n+1} = V_n + k \]
+
+En particular $q=-h\frac{g}{L}\sin(\phi)$ y $k=hy$ donde $\phi$ e $y$ se consideran cons\-tan\-tes para cada iteración, y se aproximan por $V_n$ y $U_n$ respectivamente. De esta forma, las funciones $U = \hat{y}(t)$ y $V = \hat{\phi}(t)$ quedan definidas recursivamente como
+
+
+\begin{eqnarray}
+	U_{n+1} & = & U_n - h\frac{g}{L}\sin(V_n) \label{eq:un+1}\\
+	V_{n+1} & = & V_n + hU_n \label{eq:vn+1}
+\end{eqnarray}
+ 
+
+Se desarrolló la función \emph{RungeKutta4} que resuelve el sistema \eqref{eq:sistema} con el paso $h$ y hasta el tiempo $t_{max}$ utilizando este método. La funcion \emph{calcular} calcula el período de la función $\hat{\phi}(t)$ con una tolerancia dada, resolviendo el sistema con distintos pasos de tiempo $h$ hasta conseguir la precisión deseada.  
+
+
+\section{Análisis de estabilidad}
+El método de Runge-Kutta es un método que depende del paso de tiempo $h$ utilizado en la discretización de la función. Analizaremos para qué valores de $h$ el método aplicado a las funciones del sistema \eqref{eq:sistema} es estable. Para hacer este análisis se introducen perturbaciones en las ecuaciones \eqref{eq:un+1} y \eqref{eq:vn+1}. Debe llegarse a una expresión de $\left|\frac{\delta_{n+1}}{\delta_n}\right|$ tal que
+\[ \left|\frac{\delta_{n+1}}{\delta_n}\right| 
+	\begin{cases}
+		< 1 \Rightarrow \mbox{ el método es estable} \\
+		\geq 1 \Rightarrow \mbox{ el método es inestable} 
+	\end{cases} 
+\] 
+
+\subsection{Análisis de estabilidad para la ecuación (3.1)}
+Perturbando la variable $U$ en \eqref{eq:un+1} tenemos
+
+\[ U_{n+1} + \delta U_{n+1} = U_n + \delta U_n - h\frac{g}{L}\sin(V_n) = U_{n+1} + \delta U_{n} \]
+
+Entonces $\delta U_{n+1} = \delta U_{n}$. Como 
+\[\left|\frac{\delta U_{n+1}}{\delta U_n}\right| = 1 \;\; \forall \;h\]
+decimos que el método aplicado a la (3.1) es incondicionalmente inestable.
+
+\subsection{Análisis de estabilidad para la ecuación (3.2)}
+Introduciendo las perturbaciones en $V_{n+1}$ y $V_n$ para la \eqref{eq:vn+1} tenemos que
+
+\[ V_{n+1} + \delta V_{n+1} = V_n + \delta V_n + hU_n = V_{n+1} + \delta V_n \]
+
+Entonces $\delta V_{n+1} = \delta V_n$ y nuevamente  
+\[\left|\frac{\delta V_{n+1}}{\delta V_n}\right| = 1 \;\; \forall \;h\]
+por lo que también aplicado a la (3.2) el método es incondicionalmente i\-nes\-ta\-ble.
+
+
+
+
+\section{Cálculo del período}
+El período $T$ lo encontramos buscando el máximo de la función solución ($\hat{\phi}(t)$), ésto es válido siempre y cuando
+\begin{equation}
+    t_{max} < 2T
+    \label{eq:condicionT}
+\end{equation}
+y se debe a que $\phi(0) = \phi(T)$ son los máximos.
+Para asegurar que $e_r < 1\%$ se resolvió el problema con distintos valores de $h$ y, sabiendo que cuanto más chico es el paso
+
+\begin{equation}
+    e_r < \frac{T_h - T_{h-1}}{T_h}
+\end{equation}
+
+Para ver como funciona el método se elgió un $h$ inicial de $1 seg$ (para ver cómo va aproximandose a la $\phi(x)$, y el $t_{max}=2.5$ que cumple la condición \eqref{eq:condicionT}
+
+En la figura \ref{fig:errorK} puede verse como $e_r$ disminuye cuando se achica $h$.
+
+\begin{figure}[H]
+    \centering
+        \includegraphics[width=340pt]{./imagenes/error_k.png}
+    \caption{Error relativo en función del paso $h$}
+    \label{fig:errorK}
+\end{figure}
+
+
+En las figuras \ref{fig:s1}, \ref{fig:s2},  \ref{fig:s3}, \ref{fig:s4}, \ref{fig:s5} se observan las $\hat{\phi}(x)$ halladas para los distintos $h$.
+\begin{figure}[H]
+    \centering
+        \includegraphics[width=340pt]{./imagenes/solucion_1.png}
+    \caption{Solución $\hat{\phi}(t)$ hallada utilizando un paso $h=1.0$}
+    \label{fig:s1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+        \includegraphics[width=340pt]{./imagenes/solucion_0,1.png}
+    \caption{Solución $\hat{\phi}(t)$ hallada utilizando un paso $h=0.1$}
+    \label{fig:s2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+        \includegraphics[width=340pt]{./imagenes/solucion_0,01.png}
+    \caption{Solución $\hat{\phi}(t)$ hallada utilizando un paso $h=0.01$}
+    \label{fig:s3}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+        \includegraphics[width=340pt]{./imagenes/solucion_0,001.png}
+    \caption{Solución $\hat{\phi}(t)$ hallada utilizando un paso $h=0.001$}
+    \label{fig:s4}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+        \includegraphics[width=340pt]{./imagenes/solucion_0,0001.png}
+    \caption{Solución $\hat{\phi}(t)$ hallada utilizando un paso $h=0.0001$}
+    \label{fig:s5}
+\end{figure}
+
+
+%Código fuente
+\appendix
+\chapter{Código fuente}
+\label{cap:codigo}
+    \lstinputlisting[style=Python]{../src/main.py}
+
+\end{document}
