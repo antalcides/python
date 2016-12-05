@@ -1,3 +1,0 @@
-#!/bin/sh
-basedir=/common/Java/lib/ppower4
-CLASSPATH=$basedir/pp4.jar java de.tu_darmstadt.sp.pp4.PPower4 "$@"
